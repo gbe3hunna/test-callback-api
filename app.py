@@ -2,7 +2,7 @@
 Application definition
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
@@ -13,6 +13,10 @@ async def home():
     return HTMLResponse("Hello world!")
 
 
-@app.get("/404")
-async def missing():
-    return HTMLResponse("That's gonna be a 'no' from me.", status_code=404)
+@app.post("/callback_test")
+async def callback_test(request: Request):
+    body = await request.body()
+    return {
+        'success': True,
+        'requestBody': body
+    }
